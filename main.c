@@ -90,10 +90,23 @@ void evaluate(tree_el *el)
     }
 }
 
-tree_el* new_node(tree_el el){
-    tree_el *new_el = (tree_el*)malloc(sizeof(tree_el));
+tree_el *new_node(tree_el el)
+{
+    tree_el *new_el = (tree_el *)malloc(sizeof(tree_el));
     *new_el = el;
     return new_el;
+}
+
+void clear_tree(tree_el *tree)
+{
+    if (tree == NULL)
+    {
+        return;
+    }
+    clear_tree(tree->left);
+    clear_tree(tree->right);
+
+    free(tree);
 }
 
 int main()
@@ -112,5 +125,7 @@ int main()
     evaluate(root);
     printf("\n\n\n\n");
     print_tree(root, 0);
+
+    clear_tree(root);
     return 0;
 }
