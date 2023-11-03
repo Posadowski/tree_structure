@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <stdlib.h>
 #define NO_OP ' '
 
 typedef struct tree_el
@@ -90,26 +90,27 @@ void evaluate(tree_el *el)
     }
 }
 
+tree_el* new_node(tree_el el){
+    tree_el *new_el = (tree_el*)malloc(sizeof(tree_el));
+    *new_el = el;
+    return new_el;
+}
+
 int main()
 {
     // 1+2*3
-    tree_el el1, el2, el3, el4, el5;
+    tree_el *root;
 
-    el1 = create_val(1);
-    el2 = create_op('+');
-    el3 = create_val(2);
-    el4 = create_op('*');
-    el5 = create_val(3);
+    root = new_node(create_op('+'));
+    root->left = new_node(create_val(1));
+    root->right = new_node(create_op('*'));
 
-    el2.left = &el1;
-    el2.right = &el4;
+    root->right->left = new_node(create_val(2));
+    root->right->right = new_node(create_val(3));
 
-    el4.left = &el3;
-    el4.right = &el5;
-
-    print_tree(&el2, 0);
-    evaluate(&el2);
+    print_tree(root, 0);
+    evaluate(root);
     printf("\n\n\n\n");
-    print_tree(&el2, 0);
+    print_tree(root, 0);
     return 0;
 }
