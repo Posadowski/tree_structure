@@ -115,17 +115,38 @@ void clear_tree(tree_el *tree)
     free(tree);
 }
 
-int main()
+int is_argumrnt(char c){
+    return (c>='0' && c<='9');
+}
+
+void parse(tree_el **el, char* input, int *input_ptr){
+     char c = input[*input_ptr];
+     (*input_ptr)++;
+     if(c == 0){
+        return;
+     }
+
+     if(is_argumrnt(c)){
+        *el = new_node(create_val(c-'0'));
+     } else {
+        tree_el *new_el = new_node(create_op(c));
+        parse(&new_el->left,input,input_ptr);
+        parse(&new_el->right,input,input_ptr);
+        *el = new_el;
+     }
+}
+
+int main(int argc, char** argv)
 {
     // 1+2*3
     tree_el *root;
+    int input_ptr = 0;
 
-    root = new_node(create_op('+'));
-    root->left = new_node(create_val(1));
-    root->right = new_node(create_op('*'));
+    char str[100]; 
+    printf("Enter the equation in infix form: ");
+    scanf("%s", str); 
 
-    root->right->left = new_node(create_val(2));
-    root->right->right = new_node(create_val(3));
+    parse(&root, str,&input_ptr);
 
     print_tree(root, 0);
     evaluate(root);
