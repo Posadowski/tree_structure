@@ -81,6 +81,12 @@ void evaluate(tree_el *el)
         case '*':
             c = a * b;
             break;
+        case '-':
+            c = a - b;
+            break;
+        case '/':
+            c = a/b;
+            break;         
         default:
             printf("ERROR: unsupported operator\n");
             return;
